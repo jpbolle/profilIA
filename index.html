@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mais quel est mon profil IA ?!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            min-height: 70vh;
+        }
+
+        .quiz-section, .visualization-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .quiz-section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .question-container {
+            margin-bottom: 25px;
+        }
+
+        .question-theme {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #f0f4ff;
+            color: #667eea;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .answer-option {
+            padding: 15px;
+            background: #f8f9ff;
+            border: 2px solid #e1e5ff;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .answer-option:hover {
+            background: #e1e5ff;
+            border-color: #667eea;
+        }
+
+        .answer-option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #5a67d8;
+        }
+
+        .quiz-controls {
+            text-align: center;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .visualization-section h2 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+
+        .radar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            position: relative;
+        }
+
+        .radar-chart {
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+
+        .progress-info {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .final-results {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .profile-description {
+            display: none;
+            background: #f0f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .profile-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            border-left: 4px solid #667eea;
+            background: white;
+        }
+
+        .profile-item h4 {
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mais quel est mon profil IA ?!</h1>
+
+        <div class="main-content">
+            <!-- Section Quiz (Gauche) -->
+            <div class="quiz-section">
+                <h2>🎯 Quiz Interactif</h2>
+
+                <div id="quiz-container">
+                    <div class="question-container">
+                        <div class="question-theme" id="question-theme"></div>
+                        <div class="question-text" id="question-text"></div>
+                        <div class="answers" id="answers-container"></div>
+                    </div>
+
+                    <div class="quiz-controls">
+                        <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Question Suivante</button>
+                    </div>
+                </div>
+
+                <div id="final-quiz-result" style="display: none;">
+                    <h3>🎉 Quiz Terminé !</h3>
+                    <p>Votre profil dominant est : <strong id="dominant-profile"></strong></p>
+                    <button class="btn" onclick="showProfileDescriptions()">Description des profils</button>
+                </div>
+            </div>
+
+            <!-- Section Visualisation (Droite) -->
+            <div class="visualization-section">
+                <h2>📊 Votre Profil en Temps Réel</h2>
+
+                <div class="radar-container">
+                    <canvas id="radar-chart" class="radar-chart" width="300" height="300"></canvas>
+                </div>
+
+                <div class="progress-info">
+                    <p>Question <span id="question-counter">1</span> sur 12</p>
+                </div>
+
+                <div class="final-results" id="final-results">
+                    <h3>Vos Scores Finaux</h3>
+                    <div id="scores-display"></div>
+                    <button class="btn" onclick="showProfileDescriptions()">Description des profils</button>
+                </div>
+
+                <div class="profile-description" id="profile-descriptions">
+                    <h3>📝 Description des Profils</h3>
+                    <div class="profile-item">
+                        <h4>🤔 Profil Réfléchi</h4>
+                        <p>Vous privilégiez une approche éthique et critique de l'IA. Vous questionnez les impacts sociaux, environnementaux et éthiques avant d'adopter une technologie. Vous accompagnez vos élèves dans une démarche de réflexion approfondie.</p>
+                    </div>
+                    <div class="profile-item">
+                        <h4>⚖️ Profil Pragmatique</h4>
+                        <p>Vous adoptez une approche équilibrée de l'IA. Vous en reconnaissez les avantages tout en restant conscient des limites et des risques. Vous utilisez l'IA comme un outil parmi d'autres, avec discernement.</p>
+                    </div>
+                    <div class="profile-item">
+                        <h4>🚀 Profil Technophile</h4>
+                        <p>Vous embrassez pleinement les innovations IA et privilégiez l'efficacité et la performance. Vous êtes enthousiaste face aux nouvelles possibilités technologiques et focalisé sur les gains de productivité.</p>
+                    </div>
+                    <button class="btn" onclick="hideProfileDescriptions()">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données du quiz extraites du fichier markdown
+        const quizData = [
+            {
+                theme: "Éthique 🤔",
+                question: "Lorsqu'un outil IA te propose d'automatiser une correction ou de générer des exercices, tu te demandes d'abord :",
+                answers: [
+                    { text: "Quels effets cela peut-il avoir sur la perception de la justice ou de l'équité chez mes élèves.", profile: "reflechi" },
+                    { text: "Si le gain de temps justifie d'en déléguer une partie à l'IA.", profile: "pragmatique" },
+                    { text: "Quelle tâche suivante tu pourrais automatiser pour gagner encore en efficacité.", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Éthique 🤔",
+                question: "Une IA produit un contenu ambigu ou potentiellement inapproprié. Quelle est ta réaction ?",
+                answers: [
+                    { text: "Tu questionnes la pertinence de continuer à utiliser cet outil et en parles à tes collègues.", profile: "reflechi" },
+                    { text: "Tu reformules le prompt ou corriges le résultat, sans trop t'inquiéter.", profile: "pragmatique" },
+                    { text: "Tu écartes le contenu problématique et poursuis comme si de rien n'était.", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Éthique 🤔",
+                question: "Face à des exemples IA qui renforcent certains stéréotypes sociaux (genre, origine…), tu :",
+                answers: [
+                    { text: "Lances une discussion avec tes élèves sur les stéréotypes et la façon dont ils se glissent dans les productions IA.", profile: "reflechi" },
+                    { text: "Évites d'utiliser ce contenu et t'en cherches un autre.", profile: "pragmatique" },
+                    { text: "Laisses passer, \"ce n'est pas mon combat\".", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Écologique 🌱",
+                question: "Quand tu intègres une activité IA en classe, tu penses à :",
+                answers: [
+                    { text: "Privilégier des outils IA sobres, paramétrer leur usage et limiter les requêtes.", profile: "reflechi" },
+                    { text: "Utiliser les outils IA du marché sans vérifier leur impact, mais limiter leur usage au strict nécessaire.", profile: "pragmatique" },
+                    { text: "Utiliser les IA les plus performantes, peu importe leur empreinte environnementale.", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Écologique 🌱",
+                question: "Un élève souhaite faire un projet créatif avec une IA générative très gourmande en énergie. Tu :",
+                answers: [
+                    { text: "L'accompagnes pour penser à l'impact écologique et cherches des alternatives plus sobres.", profile: "reflechi" },
+                    { text: "Acceptes mais expliques que ce projet doit rester exceptionnel.", profile: "pragmatique" },
+                    { text: "Valides avec enthousiasme, la priorité étant la créativité et l'innovation.", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Écologique 🌱",
+                question: "Lorsque tu découvres que la formation d'un grand modèle IA équivaut à plusieurs années de consommation électrique d'un foyer :",
+                answers: [
+                    { text: "Cela t'incite à réfléchir à ton usage et à informer ton entourage.", profile: "reflechi" },
+                    { text: "Tu te dis que c'est le prix du progrès technologique.", profile: "pragmatique" },
+                    { text: "Tu ne changes rien à tes pratiques, \"ce n'est pas mon problème\".", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Juridique ⚖️",
+                question: "Avant de partager un contenu généré par IA sur le blog ou le réseau de ton établissement :",
+                answers: [
+                    { text: "Tu vérifies systématiquement les droits d'utilisation et la provenance des données.", profile: "reflechi" },
+                    { text: "Tu ajoutes une mention que c'est généré par IA, sans trop creuser.", profile: "pragmatique" },
+                    { text: "Tu partages sans t'interroger, \"c'est public, non ?\".", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Juridique ⚖️",
+                question: "On t'informe que certaines IA conservent les données saisies dans les prompts pour entraîner leurs modèles. Tu :",
+                answers: [
+                    { text: "Revois tes pratiques et informes tes élèves sur les données à ne jamais partager.", profile: "reflechi" },
+                    { text: "Rappelles ce risque à l'occasion, mais continues à utiliser l'outil de la même façon.", profile: "pragmatique" },
+                    { text: "Considères que tes usages n'ont rien à cacher, donc aucune importance.", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Juridique ⚖️",
+                question: "Un élève utilise un chatbot IA pour réaliser un devoir. Tu :",
+                answers: [
+                    { text: "L'accompagnes pour l'aider à citer correctement ses sources et respecter la propriété intellectuelle.", profile: "reflechi" },
+                    { text: "Précises que ce n'est pas interdit, mais que la responsabilité reste à l'élève.", profile: "pragmatique" },
+                    { text: "T'en fiches, tant que le travail est rendu.", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Esprit Critique 🧠",
+                question: "Lorsque tu utilises un texte ou une image produits par IA, tu :",
+                answers: [
+                    { text: "Analyses systématiquement la cohérence et recherches d'éventuelles erreurs, et encourages les élèves à faire de même.", profile: "reflechi" },
+                    { text: "Parcours rapidement le contenu pour vérifier que \"ça tient la route\".", profile: "pragmatique" },
+                    { text: "Fais confiance à l'IA, car \"c'est plus fiable que Wikipédia\".", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Esprit Critique 🧠",
+                question: "Un élève te rapporte que le chatbot IA a inventé une fausse information plausible. Ta réaction :",
+                answers: [
+                    { text: "Tu saisis l'occasion pour organiser une activité de vérification collaborative.", profile: "reflechi" },
+                    { text: "Tu corriges le résultat et demandes à l'élève d'être attentif à l'avenir.", profile: "pragmatique" },
+                    { text: "Tu minimises l'incident, \"ce sont des cas isolés, ça arrive\".", profile: "technophile" }
+                ]
+            },
+            {
+                theme: "Esprit Critique 🧠",
+                question: "Lorsque tu abordes l'IA avec tes élèves, tu :",
+                answers: [
+                    { text: "Fais systématiquement un détour par le doute, la source, la pluralité des points de vue.", profile: "reflechi" },
+                    { text: "Proposes l'IA comme un outil parmi d'autres, utile pour explorer des idées.", profile: "pragmatique" },
+                    { text: "Mets en avant l'IA comme référence fiable pour la production d'informations.", profile: "technophile" }
+                ]
+            }
+        ];
+
+        // Variables globales
+        let currentQuestionIndex = 0;
+        let selectedAnswer = null;
+        let scores = { reflechi: 0, pragmatique: 0, technophile: 0 };
+        let canvas, ctx;
+
+        // Initialisation
+        window.onload = function() {
+            canvas = document.getElementById('radar-chart');
+            ctx = canvas.getContext('2d');
+
+            // Mélanger les réponses pour chaque question
+            quizData.forEach(question => {
+                question.answers = shuffleArray(question.answers);
+            });
+
+            displayQuestion();
+            drawRadarChart();
+        };
+
+        // Fonction pour mélanger un array
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // Afficher la question actuelle
+        function displayQuestion() {
+            const question = quizData[currentQuestionIndex];
+
+            document.getElementById('question-theme').textContent = question.theme;
+            document.getElementById('question-text').textContent = question.question;
+            document.getElementById('question-counter').textContent = currentQuestionIndex + 1;
+
+            const answersContainer = document.getElementById('answers-container');
+            answersContainer.innerHTML = '';
+
+            question.answers.forEach((answer, index) => {
+                const answerDiv = document.createElement('div');
+                answerDiv.className = 'answer-option';
+                answerDiv.textContent = answer.text;
+                answerDiv.onclick = () => selectAnswer(index);
+                answersContainer.appendChild(answerDiv);
+            });
+
+            selectedAnswer = null;
+            document.getElementById('next-btn').disabled = true;
+        }
+
+        // Sélectionner une réponse
+        function selectAnswer(index) {
+            // Retirer la sélection précédente
+            document.querySelectorAll('.answer-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+
+            // Sélectionner la nouvelle réponse
+            document.querySelectorAll('.answer-option')[index].classList.add('selected');
+            selectedAnswer = index;
+            document.getElementById('next-btn').disabled = false;
+        }
+
+        // Passer à la question suivante
+        function nextQuestion() {
+            if (selectedAnswer === null) return;
+
+            // Mettre à jour les scores
+            const question = quizData[currentQuestionIndex];
+            const selectedProfile = question.answers[selectedAnswer].profile;
+            scores[selectedProfile]++;
+
+            // Mettre à jour la visualisation
+            drawRadarChart();
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < quizData.length) {
+                displayQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        // Terminer le quiz
+        function finishQuiz() {
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('final-quiz-result').style.display = 'block';
+            document.getElementById('final-results').style.display = 'block';
+
+            // Déterminer le profil dominant
+            const profileNames = {
+                reflechi: 'Réfléchi 🤔',
+                pragmatique: 'Pragmatique ⚖️',
+                technophile: 'Technophile 🚀'
+            };
+
+            const dominantProfile = Object.keys(scores).reduce((a, b) =>
+                scores[a] > scores[b] ? a : b
+            );
+
+            document.getElementById('dominant-profile').textContent = profileNames[dominantProfile];
+
+            // Afficher les scores finaux
+            const scoresDisplay = document.getElementById('scores-display');
+            scoresDisplay.innerHTML = `
+                <p><strong>Réfléchi:</strong> ${scores.reflechi}/12</p>
+                <p><strong>Pragmatique:</strong> ${scores.pragmatique}/12</p>
+                <p><strong>Technophile:</strong> ${scores.technophile}/12</p>
+            `;
+
+            // Redessiner le graphique avec les labels
+            drawRadarChart(true);
+        }
+
+        // Dessiner le graphique radar
+        function drawRadarChart(showLabels = false) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 120;
+            const maxScore = 12;
+
+            // Dessiner les axes et les cercles de graduation
+            ctx.strokeStyle = '#e1e5ff';
+            ctx.lineWidth = 1;
+
+            // Cercles de graduation (1 à 10)
+            for (let i = 1; i <= 10; i++) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, (radius * i) / 10, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+            // Axes
+            const angles = [0, (2 * Math.PI) / 3, (4 * Math.PI) / 3]; // 120° entre chaque axe
+            const axisLabels = showLabels ? ['Technophile', 'Pragmatique', 'Réfléchi'] : ['Axe 1', 'Axe 2', 'Axe 3'];
+
+            angles.forEach((angle, index) => {
+                const x = centerX + Math.cos(angle - Math.PI / 2) * radius;
+                const y = centerY + Math.sin(angle - Math.PI / 2) * radius;
+
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(x, y);
+                ctx.stroke();
+
+                // Labels des axes (seulement si showLabels est true)
+                if (showLabels) {
+                    ctx.fillStyle = '#667eea';
+                    ctx.font = '14px Arial';
+                    ctx.textAlign = 'center';
+                    const labelX = centerX + Math.cos(angle - Math.PI / 2) * (radius + 20);
+                    const labelY = centerY + Math.sin(angle - Math.PI / 2) * (radius + 20);
+                    ctx.fillText(axisLabels[index], labelX, labelY);
+                }
+            });
+
+            // Centre
+            ctx.fillStyle = '#667eea';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('ProfilIA', centerX, centerY);
+
+            // Dessiner les scores
+            if (scores.reflechi > 0 || scores.pragmatique > 0 || scores.technophile > 0) {
+                const scoreValues = [scores.technophile, scores.pragmatique, scores.reflechi];
+
+                // Tracer le polygone des scores
+                ctx.beginPath();
+                ctx.strokeStyle = '#667eea';
+                ctx.fillStyle = 'rgba(102, 126, 234, 0.3)';
+                ctx.lineWidth = 2;
+
+                angles.forEach((angle, index) => {
+                    const score = Math.min(scoreValues[index], maxScore);
+                    const scoreRadius = (radius * score) / maxScore;
+                    const x = centerX + Math.cos(angle - Math.PI / 2) * scoreRadius;
+                    const y = centerY + Math.sin(angle - Math.PI / 2) * scoreRadius;
+
+                    if (index === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // Points sur les axes
+                angles.forEach((angle, index) => {
+                    const score = Math.min(scoreValues[index], maxScore);
+                    const scoreRadius = (radius * score) / maxScore;
+                    const x = centerX + Math.cos(angle - Math.PI / 2) * scoreRadius;
+                    const y = centerY + Math.sin(angle - Math.PI / 2) * scoreRadius;
+
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, 2 * Math.PI);
+                    ctx.fillStyle = '#667eea';
+                    ctx.fill();
+                });
+            }
+        }
+
+        // Afficher les descriptions des profils
+        function showProfileDescriptions() {
+            document.getElementById('profile-descriptions').style.display = 'block';
+        }
+
+        // Masquer les descriptions des profils
+        function hideProfileDescriptions() {
+            document.getElementById('profile-descriptions').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
