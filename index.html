@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mais quel est mon profil IA ?!</title>
+    <title>Quel utilisateur·rice d'IA es-tu ?</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -14,37 +14,147 @@
             --teal-light: #7EBFBF;
             --teal-bg: #d9e8e6;
             --pink: #E85A7B;
-            --pink-light: #f5a4b8;
-            --peach: #f7d2a8;
             --cream: #fdfaf6;
             --ink: #2a2a2a;
+            --muted: #6a7676;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Barlow', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: var(--ink);
             min-height: 100vh;
-        }
-
-        /* ====================== */
-        /*   INTRO SCREEN         */
-        /* ====================== */
-        #intro-screen {
-            min-height: 100vh;
             background: var(--cream);
-            padding: 60px 20px 80px;
         }
 
-        .intro-container {
-            max-width: 900px;
-            margin: 0 auto;
+        button { font-family: inherit; }
+
+        /* ==========================================
+           STRUCTURE — ÉCRANS
+           ========================================== */
+        .screen { display: none; min-height: 100vh; }
+        .screen.active { display: block; }
+
+        /* ==========================================
+           ÉCRAN 1 — CHOIX DU RÔLE
+           ========================================== */
+        #role-screen {
+            background: linear-gradient(135deg, var(--teal-dark) 0%, #1a4a4a 100%);
+            padding: 60px 20px;
+            display: none;
         }
+        #role-screen.active { display: flex; align-items: center; justify-content: center; }
+
+        .role-card {
+            background: var(--cream);
+            max-width: 900px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .role-eyebrow {
+            color: var(--pink);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .role-title {
+            color: var(--teal-dark);
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            text-align: center;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+            line-height: 1.1;
+        }
+
+        .role-subtitle {
+            color: var(--teal-light);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .role-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 640px) {
+            .role-options { grid-template-columns: 1fr; }
+        }
+
+        .role-option {
+            background: white;
+            border: 2px solid var(--teal-light);
+            border-radius: 16px;
+            padding: 32px 28px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: left;
+        }
+
+        .role-option:hover {
+            border-color: var(--teal-dark);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(44, 101, 101, 0.15);
+        }
+
+        .role-option .role-icon {
+            font-size: 2.4rem;
+            margin-bottom: 12px;
+        }
+
+        .role-option h3 {
+            color: var(--teal-dark);
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .role-option p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.45;
+        }
+
+        /* ==========================================
+           ÉCRAN 2 — INTRO ÉLÈVE
+           ========================================== */
+        #intro-screen { background: var(--cream); padding: 60px 20px 80px; }
+
+        .intro-container { max-width: 900px; margin: 0 auto; }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--teal);
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-bottom: 30px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
+        }
+        .back-link:hover { color: var(--teal-dark); }
 
         .intro-eyebrow {
             color: var(--pink);
@@ -77,26 +187,18 @@
         .intro-body {
             font-size: 1.05rem;
             line-height: 1.65;
-            color: var(--ink);
             margin-bottom: 40px;
             max-width: 780px;
         }
-
-        .intro-body em {
-            display: block;
-            margin-top: 10px;
-            color: #555;
-        }
+        .intro-body em { display: block; margin-top: 10px; color: #555; }
 
         .intro-divider {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 20px;
             margin: 40px 0;
             color: var(--teal-light);
         }
-
         .intro-divider::before,
         .intro-divider::after {
             content: '';
@@ -104,10 +206,6 @@
             height: 1px;
             background: var(--teal-light);
             opacity: 0.6;
-        }
-
-        .intro-divider-icon {
-            font-size: 1.4rem;
         }
 
         .info-section-title {
@@ -126,25 +224,14 @@
             border-radius: 10px;
             margin-bottom: 30px;
         }
-
-        .info-box p {
-            margin-bottom: 12px;
-            font-size: 1rem;
-        }
-
-        .info-box ul {
-            list-style: none;
-            padding: 0;
-        }
-
+        .info-box p { margin-bottom: 12px; }
+        .info-box ul { list-style: none; padding: 0; }
         .info-box li {
             position: relative;
             padding-left: 20px;
             margin-bottom: 12px;
-            font-size: 0.98rem;
             line-height: 1.55;
         }
-
         .info-box li::before {
             content: '•';
             position: absolute;
@@ -152,13 +239,46 @@
             color: var(--teal);
             font-weight: 700;
         }
+        .info-box li:last-child { margin-bottom: 0; }
+        .info-box strong { color: var(--teal); }
 
-        .info-box li:last-child {
-            margin-bottom: 0;
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+
+        .form-field label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 8px;
         }
 
-        .info-box strong {
-            color: var(--teal);
+        .form-field input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--teal-light);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.2s ease;
+        }
+        .form-field input:focus {
+            outline: none;
+            border-color: var(--teal-dark);
+        }
+        .form-field .hint {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 6px;
         }
 
         .checkbox-row {
@@ -167,12 +287,11 @@
             gap: 14px;
             margin: 14px 0;
             cursor: pointer;
-            font-size: 0.98rem;
         }
 
         .checkbox-row input[type="checkbox"] {
-            appearance: none;
             -webkit-appearance: none;
+            appearance: none;
             width: 22px;
             height: 22px;
             border: 2px solid var(--teal-light);
@@ -181,14 +300,11 @@
             position: relative;
             flex-shrink: 0;
             background: transparent;
-            transition: all 0.2s ease;
         }
-
         .checkbox-row input[type="checkbox"]:checked {
             background: var(--teal);
             border-color: var(--teal);
         }
-
         .checkbox-row input[type="checkbox"]:checked::after {
             content: '';
             position: absolute;
@@ -201,21 +317,16 @@
             transform: rotate(45deg);
         }
 
-        .cta-wrapper {
-            text-align: right;
-            margin-top: 30px;
-        }
+        .cta-wrapper { text-align: right; margin-top: 30px; }
 
         .cta-button {
             display: inline-flex;
             align-items: center;
-            gap: 0;
             background: var(--teal-dark);
             color: white;
             border: none;
             border-radius: 999px;
             padding: 0;
-            font-family: inherit;
             font-size: 1rem;
             font-weight: 700;
             letter-spacing: 2px;
@@ -223,44 +334,36 @@
             cursor: pointer;
             overflow: hidden;
             box-shadow: 0 6px 20px rgba(44, 101, 101, 0.25);
-            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+            transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s, background 0.2s;
         }
-
         .cta-button:not(:disabled):hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(44, 101, 101, 0.35);
             background: #1f5252;
         }
-
-        .cta-button:not(:disabled):hover .cta-arrow {
-            background: #133838;
-        }
-
-        .cta-button:disabled {
-            opacity: 0.45;
-            cursor: not-allowed;
-        }
-
-        .cta-button .cta-label {
-            padding: 20px 32px;
-        }
-
+        .cta-button:not(:disabled):hover .cta-arrow { background: #133838; }
+        .cta-button:disabled { opacity: 0.45; cursor: not-allowed; }
+        .cta-button .cta-label { padding: 18px 30px; }
         .cta-button .cta-arrow {
             background: var(--teal);
-            padding: 20px 26px;
-            font-size: 1.2rem;
+            padding: 18px 24px;
+            font-size: 1.15rem;
             color: white;
-            transition: background 0.2s ease;
+            transition: background 0.2s;
         }
 
-        /* ====================== */
-        /*   QUIZ SCREEN          */
-        /* ====================== */
-        #quiz-screen {
-            background: linear-gradient(135deg, #2C6565 0%, #1a4a4a 100%);
-            min-height: 100vh;
-            color: #333;
+        .form-error {
+            color: #d94a5b;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            display: none;
         }
+        .form-error.visible { display: block; }
+
+        /* ==========================================
+           ÉCRAN 3 — QUIZ
+           ========================================== */
+        #quiz-screen { background: linear-gradient(135deg, #2C6565 0%, #1a4a4a 100%); min-height: 100vh; }
 
         .container {
             max-width: 1400px;
@@ -268,23 +371,41 @@
             padding: 30px 20px;
         }
 
-        h1 {
-            text-align: center;
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .quiz-header h1 {
             color: white;
-            font-size: 2.5rem;
+            font-size: clamp(1.4rem, 3vw, 2.2rem);
             font-weight: 900;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
         }
+
+        .session-badge {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .session-badge strong { letter-spacing: 2px; margin-left: 6px; }
 
         .main-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 30px;
-            min-height: 70vh;
         }
+        @media (max-width: 900px) { .main-content { grid-template-columns: 1fr; } }
 
         .quiz-section, .visualization-section {
             background: white;
@@ -296,11 +417,7 @@
         .quiz-section h2 {
             color: var(--teal-dark);
             margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .question-container {
-            margin-bottom: 25px;
+            font-size: 1.4rem;
         }
 
         .question-theme {
@@ -309,8 +426,8 @@
             background: #eaf3f3;
             color: var(--teal-dark);
             border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: bold;
+            font-size: 0.85rem;
+            font-weight: 700;
             margin-bottom: 15px;
         }
 
@@ -329,62 +446,59 @@
         }
 
         .answer-option {
-            padding: 15px;
+            padding: 14px 16px;
             background: #f6fafa;
             border: 2px solid #d7e8e8;
             border-radius: 10px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
+            line-height: 1.4;
         }
-
         .answer-option:hover {
             background: #d7e8e8;
             border-color: var(--teal-dark);
         }
-
         .answer-option.selected {
             background: var(--teal-dark);
             color: white;
             border-color: #1f5252;
         }
 
-        .quiz-controls {
-            text-align: center;
-        }
+        .quiz-controls { text-align: center; }
 
         .btn {
             background: var(--teal-dark);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 12px 26px;
             border-radius: 25px;
-            font-family: inherit;
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
             margin: 5px;
         }
-
-        .btn:hover {
-            background: #1f5252;
-            transform: translateY(-2px);
+        .btn:hover:not(:disabled) { background: #1f5252; transform: translateY(-2px); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .btn.btn-secondary {
+            background: white;
+            color: var(--teal-dark);
+            border: 2px solid var(--teal-dark);
         }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
+        .btn.btn-secondary:hover:not(:disabled) {
+            background: var(--teal-dark);
+            color: white;
         }
 
         .visualization-section h2 {
             color: var(--teal-dark);
             text-align: center;
             margin-bottom: 20px;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
         }
 
-        /* Radar filter pills */
         .radar-filters {
             display: flex;
             flex-wrap: wrap;
@@ -399,21 +513,13 @@
             border: 2px solid transparent;
             padding: 6px 14px;
             border-radius: 999px;
-            font-family: inherit;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
         }
-
-        .filter-pill:hover {
-            border-color: var(--teal-dark);
-        }
-
-        .filter-pill.active {
-            background: var(--teal-dark);
-            color: white;
-        }
+        .filter-pill:hover { border-color: var(--teal-dark); }
+        .filter-pill.active { background: var(--teal-dark); color: white; }
 
         .radar-container {
             display: flex;
@@ -422,12 +528,7 @@
             height: 380px;
             position: relative;
         }
-
-        .radar-chart {
-            width: 320px;
-            height: 320px;
-            position: relative;
-        }
+        .radar-chart { width: 320px; height: 320px; }
 
         .radar-tooltip {
             position: absolute;
@@ -445,7 +546,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             z-index: 10;
         }
-
         .radar-tooltip::after {
             content: '';
             position: absolute;
@@ -455,27 +555,454 @@
             border: 6px solid transparent;
             border-top-color: var(--teal-dark);
         }
-
-        .radar-tooltip.visible {
-            opacity: 1;
-        }
+        .radar-tooltip.visible { opacity: 1; }
 
         .progress-info {
             text-align: center;
             margin-top: 15px;
-            font-size: 1.05rem;
-            color: #666;
+            font-size: 1rem;
+            color: var(--muted);
         }
 
-        .final-results {
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #eaf3f3;
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--teal-light), var(--teal-dark));
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .final-results { display: none; text-align: center; margin-top: 20px; }
+        .final-results h3 {
+            color: var(--teal-dark);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        /* ==========================================
+           ÉCRAN 4 — FORMATEUR·RICE (LOGIN + DASHBOARD)
+           ========================================== */
+        #teacher-login-screen {
+            background: linear-gradient(135deg, var(--teal-dark) 0%, #1a4a4a 100%);
+            padding: 60px 20px;
             display: none;
-            text-align: center;
-            margin-top: 20px;
+        }
+        #teacher-login-screen.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* ====================== */
-        /*   MODAL                */
-        /* ====================== */
+        .login-card {
+            background: var(--cream);
+            max-width: 520px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .login-card h2 {
+            color: var(--teal-dark);
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .login-card p {
+            color: var(--muted);
+            margin-bottom: 30px;
+            line-height: 1.55;
+        }
+
+        .google-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: box-shadow 0.2s;
+        }
+        .google-btn:hover { box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+        .google-btn img { width: 20px; height: 20px; }
+
+        .login-error {
+            margin-top: 20px;
+            padding: 14px;
+            background: #ffe9ec;
+            border: 1px solid #d94a5b;
+            color: #7a1e2a;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: left;
+            display: none;
+        }
+        .login-error.visible { display: block; }
+        .login-error code {
+            background: rgba(0,0,0,0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        /* ==========================================
+           ÉCRAN 5 — DASHBOARD PROF
+           ========================================== */
+        #teacher-dashboard-screen {
+            background: linear-gradient(135deg, var(--teal-dark) 0%, #1a4a4a 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+
+        .dash-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dash-header h1 {
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .dash-user {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .dash-user button {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .dash-user button:hover { background: rgba(255,255,255,0.25); }
+
+        .dash-content { max-width: 1400px; margin: 0 auto; }
+
+        .dash-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .session-panel { text-align: center; }
+        .session-panel h2 {
+            color: var(--teal-dark);
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+        }
+
+        .session-code-display {
+            font-family: 'Barlow', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            color: var(--teal-dark);
+            letter-spacing: 12px;
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--teal-bg);
+            border-radius: 15px;
+            border: 3px dashed var(--teal-light);
+            -webkit-user-select: all;
+            user-select: all;
+        }
+
+        .session-instruction {
+            color: var(--muted);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .session-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .no-session-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .no-session-state h2 {
+            color: var(--teal-dark);
+            margin-bottom: 12px;
+        }
+        .no-session-state p {
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .dash-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-left: 5px solid var(--teal-dark);
+        }
+        .stat-card h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .stat-card .stat-value {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--teal-dark);
+            line-height: 1;
+        }
+        .stat-card .stat-sub {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 6px;
+        }
+        .stat-card.reflechi { border-left-color: #4d8899; }
+        .stat-card.reflechi .stat-value { color: #4d8899; }
+        .stat-card.pragmatique { border-left-color: #d19c3d; }
+        .stat-card.pragmatique .stat-value { color: #d19c3d; }
+        .stat-card.technophile { border-left-color: #c9556f; }
+        .stat-card.technophile .stat-value { color: #c9556f; }
+
+        .dash-panel-title {
+            color: var(--teal-dark);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .sessions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .session-row {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 16px;
+            align-items: center;
+            padding: 14px 18px;
+            background: #f6fafa;
+            border: 2px solid #eaf3f3;
+            border-radius: 12px;
+            transition: border-color 0.2s ease;
+        }
+        .session-row:hover { border-color: var(--teal-light); }
+        .session-row.current {
+            background: var(--teal-bg);
+            border-color: var(--teal-dark);
+        }
+
+        .session-row .s-code {
+            font-family: 'Barlow', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--teal-dark);
+            letter-spacing: 4px;
+            padding: 4px 12px;
+            background: white;
+            border-radius: 8px;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .session-row .s-meta {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        .session-row .s-meta strong { color: var(--ink); }
+        .session-row .s-badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: var(--teal-dark);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-left: 8px;
+        }
+
+        .session-row .btn-mini {
+            padding: 8px 14px;
+            font-size: 0.82rem;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+        .btn-mini.btn-open {
+            background: white;
+            color: var(--teal-dark);
+            border: 2px solid var(--teal-dark);
+        }
+        .btn-mini.btn-open:hover:not(:disabled) {
+            background: var(--teal-dark);
+            color: white;
+        }
+        .btn-mini.btn-open:disabled { opacity: 0.5; cursor: not-allowed; }
+        .btn-mini.btn-delete {
+            background: white;
+            color: #c9556f;
+            border: 2px solid #c9556f;
+        }
+        .btn-mini.btn-delete:hover:not(:disabled) {
+            background: #c9556f;
+            color: white;
+        }
+        .btn-mini.btn-delete:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            padding: 30px 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 640px) {
+            .session-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .session-row .s-code { grid-column: 1 / -1; text-align: center; }
+            .session-row .s-meta { grid-column: 1 / -1; }
+        }
+
+        .bar-chart-wrap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .bar-chart-wrap canvas {
+            width: 100%;
+            max-width: 900px;
+            height: auto;
+            aspect-ratio: 3 / 1;
+        }
+
+        .dash-charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 900px) { .dash-charts { grid-template-columns: 1fr; } }
+
+        .dash-charts .dash-panel h2 {
+            color: var(--teal-dark);
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .participants-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .participants-list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .participants-list th,
+        .participants-list td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eaf3f3;
+            font-size: 0.92rem;
+        }
+        .participants-list th {
+            color: var(--muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            background: #f8fbfb;
+            position: sticky;
+            top: 0;
+        }
+        .participants-list .profile-tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+        .participants-list .profile-tag.reflechi { background: #dbe9ee; color: #4d8899; }
+        .participants-list .profile-tag.pragmatique { background: #f4e4c7; color: #b17e29; }
+        .participants-list .profile-tag.technophile { background: #f7d6de; color: #b0455c; }
+
+        .empty-participants {
+            text-align: center;
+            color: var(--muted);
+            padding: 40px 20px;
+            font-style: italic;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #4bcf6d;
+            border-radius: 50%;
+            margin-right: 6px;
+            animation: pulse 1.6s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ==========================================
+           MODALES
+           ========================================== */
         .modal-backdrop {
             display: none;
             position: fixed;
@@ -487,14 +1014,11 @@
             align-items: flex-start;
             justify-content: center;
         }
-
-        .modal-backdrop.active {
-            display: flex;
-        }
+        .modal-backdrop.active { display: flex; }
 
         .modal-content {
             background: white;
-            max-width: 640px;
+            max-width: 680px;
             width: 100%;
             border-radius: 16px;
             padding: 36px;
@@ -505,7 +1029,7 @@
 
         .modal-content h3 {
             color: var(--teal-dark);
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -517,17 +1041,8 @@
             background: #f6fafa;
             border-radius: 0 8px 8px 0;
         }
-
-        .profile-item h4 {
-            color: var(--teal-dark);
-            margin-bottom: 6px;
-            font-size: 1.1rem;
-        }
-
-        .profile-item p {
-            line-height: 1.55;
-            font-size: 0.96rem;
-        }
+        .profile-item h4 { color: var(--teal-dark); margin-bottom: 6px; font-size: 1.1rem; }
+        .profile-item p { line-height: 1.55; font-size: 0.96rem; }
 
         .modal-close {
             position: absolute;
@@ -541,57 +1056,107 @@
             width: 34px;
             height: 34px;
             border-radius: 50%;
-            transition: background 0.2s ease;
         }
+        .modal-close:hover { background: #eee; color: #333; }
 
-        .modal-close:hover {
-            background: #eee;
-            color: #333;
+        .modal-footer { text-align: center; margin-top: 20px; }
+
+        /* Modal Profils du groupe */
+        .group-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
         }
+        @media (max-width: 500px) { .group-stats { grid-template-columns: 1fr; } }
 
-        .modal-footer {
+        .group-stat {
             text-align: center;
-            margin-top: 20px;
+            padding: 18px 12px;
+            border-radius: 12px;
+            background: #f6fafa;
+            border: 2px solid #eaf3f3;
+        }
+        .group-stat .g-value {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--teal-dark);
+            line-height: 1;
+        }
+        .group-stat .g-label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-top: 8px;
+        }
+        .group-stat.reflechi { border-color: #b8d1d9; background: #edf4f6; }
+        .group-stat.reflechi .g-value { color: #4d8899; }
+        .group-stat.pragmatique { border-color: #e8d4a6; background: #faf3e4; }
+        .group-stat.pragmatique .g-value { color: #b17e29; }
+        .group-stat.technophile { border-color: #e8bac5; background: #fbedf1; }
+        .group-stat.technophile .g-value { color: #b0455c; }
+
+        .group-total {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
         }
 
-        /* ====================== */
-        /*   RESPONSIVE           */
-        /* ====================== */
-        @media (max-width: 768px) {
-            .main-content {
-                grid-template-columns: 1fr;
-                gap: 20px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .container {
-                padding: 20px 15px;
-            }
-
-            .intro-title {
-                font-size: 2rem;
-            }
-
-            .cta-wrapper {
-                text-align: center;
-            }
-
-            .cta-button {
-                width: 100%;
-                justify-content: space-between;
-            }
+        .group-radar-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0 20px;
         }
+
+        /* Loading state */
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(44, 101, 101, 0.3);
+            border-top-color: var(--teal-dark);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
-    <!-- ================================ -->
-    <!--   PAGE D'INTRODUCTION            -->
-    <!-- ================================ -->
-    <div id="intro-screen">
+
+    <!-- ================================================ -->
+    <!--   ÉCRAN 1 — CHOIX DU RÔLE                        -->
+    <!-- ================================================ -->
+    <div id="role-screen" class="screen active">
+        <div class="role-card">
+            <div class="role-eyebrow">Formation FWB — Enseignement Secondaire</div>
+            <h1 class="role-title">Quel utilisateur·rice d'IA es-tu ?</h1>
+            <div class="role-subtitle">Analysez votre rapport à l'IA</div>
+
+            <div class="role-options">
+                <button class="role-option" data-role="student">
+                    <div class="role-icon">🎓</div>
+                    <h3>Je participe</h3>
+                    <p>Réponds aux 16 questions pour découvrir ton profil et voir les résultats du groupe en temps réel.</p>
+                </button>
+                <button class="role-option" data-role="teacher">
+                    <div class="role-icon">🎤</div>
+                    <h3>Je suis formateur·rice</h3>
+                    <p>Crée une session, partage le code aux participant·es et suis le tableau de bord en direct.</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================ -->
+    <!--   ÉCRAN 2 — INTRO ÉLÈVE                          -->
+    <!-- ================================================ -->
+    <div id="intro-screen" class="screen">
         <div class="intro-container">
+            <button class="back-link" data-goto="role">← Retour</button>
+
             <div class="intro-eyebrow">Formation FWB — Enseignement Secondaire</div>
             <h1 class="intro-title">Quel utilisateur·rice d'IA es-tu ?</h1>
             <div class="intro-subtitle">Analysez votre rapport à l'IA</div>
@@ -601,8 +1166,21 @@
                 <em>Répondez vite. Votre première réaction compte plus que votre réponse réfléchie.</em>
             </p>
 
-            <div class="intro-divider">
-                <span class="intro-divider-icon">✿</span>
+            <div class="intro-divider"><span>✿</span></div>
+
+            <h2 class="info-section-title">Rejoindre la session</h2>
+
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="pseudo-input">Ton pseudo</label>
+                    <input type="text" id="pseudo-input" maxlength="40" placeholder="ex. Marie, Pseudo123…">
+                    <span class="hint">Visible uniquement par le·la formateur·rice.</span>
+                </div>
+                <div class="form-field">
+                    <label for="code-input">Code de session</label>
+                    <input type="text" id="code-input" maxlength="6" placeholder="ex. AB47" style="text-transform: uppercase; letter-spacing: 4px;">
+                    <span class="hint">Fourni à l'oral par le·la formateur·rice.</span>
+                </div>
             </div>
 
             <h2 class="info-section-title">Information sur l'usage de vos données</h2>
@@ -610,9 +1188,9 @@
             <div class="info-box">
                 <p>Ce questionnaire traite vos réponses de la façon suivante :</p>
                 <ul>
-                    <li>Vos réponses restent dans votre navigateur. Elles ne sont <strong>jamais stockées</strong> sur un serveur.</li>
-                    <li>Aucune donnée personnelle (nom, email, établissement) n'est collectée ou transmise.</li>
-                    <li>Le calcul de votre profil s'effectue localement, dans votre navigateur.</li>
+                    <li>Seul votre <strong>pseudo</strong> est enregistré, sans email ni identité réelle.</li>
+                    <li>Le·la formateur·rice voit les scores associés à votre pseudo ; les autres participant·es voient uniquement des <strong>statistiques agrégées</strong>.</li>
+                    <li>Les données restent dans la session et ne sont pas revendues ni utilisées à d'autres fins.</li>
                 </ul>
             </div>
 
@@ -621,8 +1199,10 @@
                 <span>J'ai lu et j'accepte les conditions d'utilisation de mes données.</span>
             </label>
 
+            <div class="form-error" id="join-error"></div>
+
             <div class="cta-wrapper">
-                <button id="start-quiz-btn" class="cta-button" disabled onclick="startQuiz()">
+                <button id="start-quiz-btn" class="cta-button" disabled>
                     <span class="cta-label">Je commence le questionnaire</span>
                     <span class="cta-arrow">→</span>
                 </button>
@@ -630,44 +1210,45 @@
         </div>
     </div>
 
-    <!-- ================================ -->
-    <!--   ÉCRAN DU QUIZ                  -->
-    <!-- ================================ -->
-    <div id="quiz-screen" style="display: none;">
+    <!-- ================================================ -->
+    <!--   ÉCRAN 3 — QUIZ                                 -->
+    <!-- ================================================ -->
+    <div id="quiz-screen" class="screen">
         <div class="container">
-            <h1>Mais quel est mon profil IA ?!</h1>
+            <div class="quiz-header">
+                <h1>Mais quel est mon profil IA ?</h1>
+                <div class="session-badge">Session <strong id="session-badge-code"></strong></div>
+            </div>
 
             <div class="main-content">
-                <!-- Section Quiz (Gauche) -->
+                <!-- Section Quiz -->
                 <div class="quiz-section">
-                    <h2>🎯 Quiz Interactif</h2>
+                    <h2>🎯 Quiz interactif</h2>
 
                     <div id="quiz-container">
-                        <div class="question-container">
-                            <div class="question-theme" id="question-theme"></div>
-                            <div class="question-text" id="question-text"></div>
-                            <div class="answers" id="answers-container"></div>
-                        </div>
+                        <div class="question-theme" id="question-theme"></div>
+                        <div class="question-text" id="question-text"></div>
+                        <div class="answers" id="answers-container"></div>
 
                         <div class="quiz-controls">
-                            <button class="btn" id="next-btn" onclick="nextQuestion()" disabled>Question Suivante</button>
+                            <button class="btn" id="next-btn" disabled>Question suivante</button>
                         </div>
                     </div>
 
                     <div id="final-quiz-result" style="display: none;">
-                        <h3>🎉 Quiz Terminé !</h3>
+                        <h3>🎉 Quiz terminé !</h3>
                         <p style="margin: 10px 0;">Votre profil dominant est : <strong id="dominant-profile"></strong></p>
-                        <button class="btn" onclick="showProfileDescriptions()">Description des profils</button>
+                        <div id="save-status" style="color: var(--muted); font-size: 0.9rem; margin-bottom: 15px;"></div>
+                        <button class="btn" id="btn-profile-desc">Description des profils</button>
+                        <button class="btn btn-secondary" id="btn-group-profiles">Profils du groupe</button>
                     </div>
                 </div>
 
-                <!-- Section Visualisation (Droite) -->
+                <!-- Section Visualisation -->
                 <div class="visualization-section">
-                    <h2>📊 Votre Profil en Temps Réel</h2>
+                    <h2>📊 Votre profil en temps réel</h2>
 
-                    <div class="radar-filters" id="radar-filters">
-                        <!-- Filtres injectés dynamiquement -->
-                    </div>
+                    <div class="radar-filters" id="radar-filters"></div>
 
                     <div class="radar-container">
                         <canvas id="radar-chart" class="radar-chart" width="320" height="320"></canvas>
@@ -675,26 +1256,150 @@
                     </div>
 
                     <div class="progress-info">
-                        <p>Question <span id="question-counter">1</span> sur 12</p>
+                        <p>Question <span id="question-counter">1</span> sur <span id="question-total">16</span></p>
+                        <div class="progress-bar"><div class="progress-bar-fill" id="progress-fill"></div></div>
                     </div>
 
                     <div class="final-results" id="final-results">
-                        <h3>Vos Scores Finaux</h3>
+                        <h3>Vos scores finaux</h3>
                         <div id="scores-display"></div>
-                        <button class="btn" onclick="showProfileDescriptions()">Description des profils</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================================ -->
-    <!--   MODALE DE DESCRIPTIONS         -->
-    <!-- ================================ -->
-    <div id="profile-modal" class="modal-backdrop" onclick="handleBackdropClick(event)">
+    <!-- ================================================ -->
+    <!--   ÉCRAN 4 — LOGIN FORMATEUR                      -->
+    <!-- ================================================ -->
+    <div id="teacher-login-screen" class="screen">
+        <div class="login-card">
+            <div class="role-eyebrow">Espace formateur·rice</div>
+            <h2>Se connecter</h2>
+            <p>Seuls les formateurs·rices autorisé·es peuvent accéder au tableau de bord. Connectez-vous avec votre compte Google (email professionnel).</p>
+
+            <button class="google-btn" id="google-signin-btn">
+                <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                Continuer avec Google
+            </button>
+
+            <div class="login-error" id="login-error"></div>
+
+            <button class="back-link" data-goto="role" style="margin-top: 30px;">← Retour</button>
+        </div>
+    </div>
+
+    <!-- ================================================ -->
+    <!--   ÉCRAN 5 — DASHBOARD FORMATEUR                  -->
+    <!-- ================================================ -->
+    <div id="teacher-dashboard-screen" class="screen">
+        <div class="dash-header">
+            <h1>Tableau de bord — ProfilIA</h1>
+            <div class="dash-user">
+                <span><span class="live-dot"></span>Connecté·e comme <strong id="teacher-email"></strong></span>
+                <button id="teacher-logout-btn">Déconnexion</button>
+            </div>
+        </div>
+
+        <div class="dash-content">
+            <!-- Session panel -->
+            <div class="dash-panel" id="session-panel">
+                <div id="no-session-view" class="no-session-state">
+                    <h2>Aucune session active</h2>
+                    <p>Créez une session pour obtenir un code court à partager aux participant·es.</p>
+                    <button class="btn" id="create-session-btn">Créer une session</button>
+                </div>
+
+                <div id="active-session-view" class="session-panel" style="display: none;">
+                    <h2>📢 Code à partager aux participant·es</h2>
+                    <div class="session-code-display" id="active-session-code">----</div>
+                    <p class="session-instruction">Les participant·es entrent ce code sur la page d'accueil pour rejoindre la session.</p>
+                    <div class="session-actions">
+                        <button class="btn btn-secondary" id="copy-code-btn">Copier le code</button>
+                        <button class="btn btn-secondary" id="leave-session-btn">Quitter la vue</button>
+                        <button class="btn btn-secondary" id="end-session-btn">Terminer la session</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des sessions ouvertes -->
+            <div class="dash-panel" id="sessions-list-panel">
+                <h2 class="dash-panel-title">🗂 Vos sessions ouvertes</h2>
+                <div class="sessions-list" id="sessions-list"></div>
+                <div class="empty-state" id="sessions-list-empty">Aucune session ouverte pour le moment.</div>
+            </div>
+
+            <!-- Stats -->
+            <div class="dash-stats-grid" id="stats-grid" style="display: none;">
+                <div class="stat-card">
+                    <h3>Participant·es</h3>
+                    <div class="stat-value" id="stat-total">0</div>
+                    <div class="stat-sub">ont terminé le quiz</div>
+                </div>
+                <div class="stat-card reflechi">
+                    <h3>🤔 Réfléchi</h3>
+                    <div class="stat-value" id="stat-reflechi">0</div>
+                    <div class="stat-sub"><span id="pct-reflechi">0</span>% du groupe</div>
+                </div>
+                <div class="stat-card pragmatique">
+                    <h3>⚖️ Pragmatique</h3>
+                    <div class="stat-value" id="stat-pragmatique">0</div>
+                    <div class="stat-sub"><span id="pct-pragmatique">0</span>% du groupe</div>
+                </div>
+                <div class="stat-card technophile">
+                    <h3>🚀 Technophile</h3>
+                    <div class="stat-value" id="stat-technophile">0</div>
+                    <div class="stat-sub"><span id="pct-technophile">0</span>% du groupe</div>
+                </div>
+            </div>
+
+            <!-- Bar chart : répartition des profils dominants -->
+            <div class="dash-panel" id="dash-bar-panel" style="display: none;">
+                <h2 class="dash-panel-title">📊 Répartition des profils dominants</h2>
+                <div class="bar-chart-wrap">
+                    <canvas id="dash-bar-chart" width="900" height="300"></canvas>
+                </div>
+            </div>
+
+            <!-- Charts + participants -->
+            <div class="dash-charts" id="dash-charts" style="display: none;">
+                <div class="dash-panel">
+                    <h2>Radar agrégé (moyennes)</h2>
+                    <div class="radar-filters" id="dash-radar-filters"></div>
+                    <div class="radar-container">
+                        <canvas id="dash-radar-chart" width="320" height="320"></canvas>
+                        <div id="dash-radar-tooltip" class="radar-tooltip"></div>
+                    </div>
+                </div>
+                <div class="dash-panel">
+                    <h2>Participant·es</h2>
+                    <div class="participants-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Pseudo</th>
+                                    <th>Profil</th>
+                                    <th>Terminé</th>
+                                </tr>
+                            </thead>
+                            <tbody id="participants-tbody"></tbody>
+                        </table>
+                        <div class="empty-participants" id="empty-participants">En attente des premières réponses…</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================ -->
+    <!--   MODALES                                        -->
+    <!-- ================================================ -->
+
+    <!-- Modal descriptions des profils -->
+    <div id="profile-modal" class="modal-backdrop">
         <div class="modal-content">
-            <button class="modal-close" onclick="hideProfileDescriptions()" aria-label="Fermer">×</button>
-            <h3>📝 Description des Profils</h3>
+            <button class="modal-close" data-close-modal="profile-modal" aria-label="Fermer">×</button>
+            <h3>📝 Description des profils</h3>
             <div class="profile-item">
                 <h4>🤔 Profil Réfléchi</h4>
                 <p>Vous privilégiez une approche éthique et critique de l'IA. Vous questionnez les impacts sociaux, environnementaux et éthiques avant d'adopter une technologie. Vous accompagnez vos élèves dans une démarche de réflexion approfondie.</p>
@@ -708,467 +1413,49 @@
                 <p>Vous embrassez pleinement les innovations IA et privilégiez l'efficacité et la performance. Vous êtes enthousiaste face aux nouvelles possibilités technologiques et focalisé·e sur les gains de productivité.</p>
             </div>
             <div class="modal-footer">
-                <button class="btn" onclick="hideProfileDescriptions()">Fermer</button>
+                <button class="btn" data-close-modal="profile-modal">Fermer</button>
             </div>
         </div>
     </div>
 
-    <script>
-        // ================================
-        //   DONNÉES DU QUIZ
-        // ================================
-        const quizData = [
-            {
-                theme: "Éthique 🤔",
-                question: "Lorsqu'un outil IA te propose d'automatiser une correction ou de générer des exercices, tu te demandes d'abord :",
-                answers: [
-                    { text: "Quels effets cela peut-il avoir sur la perception de la justice ou de l'équité chez mes élèves.", profile: "reflechi" },
-                    { text: "Si le gain de temps justifie d'en déléguer une partie à l'IA.", profile: "pragmatique" },
-                    { text: "Quelle tâche suivante tu pourrais automatiser pour gagner encore en efficacité.", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Éthique 🤔",
-                question: "Une IA produit un contenu ambigu ou potentiellement inapproprié. Quelle est ta réaction ?",
-                answers: [
-                    { text: "Tu questionnes la pertinence de continuer à utiliser cet outil et en parles à tes collègues.", profile: "reflechi" },
-                    { text: "Tu reformules le prompt ou corriges le résultat, sans trop t'inquiéter.", profile: "pragmatique" },
-                    { text: "Tu écartes le contenu problématique et poursuis comme si de rien n'était.", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Éthique 🤔",
-                question: "Face à des exemples IA qui renforcent certains stéréotypes sociaux (genre, origine…), tu :",
-                answers: [
-                    { text: "Lances une discussion avec tes élèves sur les stéréotypes et la façon dont ils se glissent dans les productions IA.", profile: "reflechi" },
-                    { text: "Évites d'utiliser ce contenu et t'en cherches un autre.", profile: "pragmatique" },
-                    { text: "Laisses passer, \"ce n'est pas mon combat\".", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Écologique 🌱",
-                question: "Quand tu intègres une activité IA en classe, tu penses à :",
-                answers: [
-                    { text: "Privilégier des outils IA sobres, paramétrer leur usage et limiter les requêtes.", profile: "reflechi" },
-                    { text: "Utiliser les outils IA du marché sans vérifier leur impact, mais limiter leur usage au strict nécessaire.", profile: "pragmatique" },
-                    { text: "Utiliser les IA les plus performantes, peu importe leur empreinte environnementale.", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Écologique 🌱",
-                question: "Un élève souhaite faire un projet créatif avec une IA générative très gourmande en énergie. Tu :",
-                answers: [
-                    { text: "L'accompagnes pour penser à l'impact écologique et cherches des alternatives plus sobres.", profile: "reflechi" },
-                    { text: "Acceptes mais expliques que ce projet doit rester exceptionnel.", profile: "pragmatique" },
-                    { text: "Valides avec enthousiasme, la priorité étant la créativité et l'innovation.", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Écologique 🌱",
-                question: "Lorsque tu découvres que la formation d'un grand modèle IA équivaut à plusieurs années de consommation électrique d'un foyer :",
-                answers: [
-                    { text: "Cela t'incite à réfléchir à ton usage et à informer ton entourage.", profile: "reflechi" },
-                    { text: "Tu te dis que c'est le prix du progrès technologique.", profile: "pragmatique" },
-                    { text: "Tu ne changes rien à tes pratiques, \"ce n'est pas mon problème\".", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Juridique ⚖️",
-                question: "Avant de partager un contenu généré par IA sur le blog ou le réseau de ton établissement :",
-                answers: [
-                    { text: "Tu vérifies systématiquement les droits d'utilisation et la provenance des données.", profile: "reflechi" },
-                    { text: "Tu ajoutes une mention que c'est généré par IA, sans trop creuser.", profile: "pragmatique" },
-                    { text: "Tu partages sans t'interroger, \"c'est public, non ?\".", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Juridique ⚖️",
-                question: "On t'informe que certaines IA conservent les données saisies dans les prompts pour entraîner leurs modèles. Tu :",
-                answers: [
-                    { text: "Revois tes pratiques et informes tes élèves sur les données à ne jamais partager.", profile: "reflechi" },
-                    { text: "Rappelles ce risque à l'occasion, mais continues à utiliser l'outil de la même façon.", profile: "pragmatique" },
-                    { text: "Considères que tes usages n'ont rien à cacher, donc aucune importance.", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Juridique ⚖️",
-                question: "Un élève utilise un chatbot IA pour réaliser un devoir. Tu :",
-                answers: [
-                    { text: "L'accompagnes pour l'aider à citer correctement ses sources et respecter la propriété intellectuelle.", profile: "reflechi" },
-                    { text: "Précises que ce n'est pas interdit, mais que la responsabilité reste à l'élève.", profile: "pragmatique" },
-                    { text: "T'en fiches, tant que le travail est rendu.", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Esprit Critique 🧠",
-                question: "Lorsque tu utilises un texte ou une image produits par IA, tu :",
-                answers: [
-                    { text: "Analyses systématiquement la cohérence et recherches d'éventuelles erreurs, et encourages les élèves à faire de même.", profile: "reflechi" },
-                    { text: "Parcours rapidement le contenu pour vérifier que \"ça tient la route\".", profile: "pragmatique" },
-                    { text: "Fais confiance à l'IA, car \"c'est plus fiable que Wikipédia\".", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Esprit Critique 🧠",
-                question: "Un élève te rapporte que le chatbot IA a inventé une fausse information plausible. Ta réaction :",
-                answers: [
-                    { text: "Tu saisis l'occasion pour organiser une activité de vérification collaborative.", profile: "reflechi" },
-                    { text: "Tu corriges le résultat et demandes à l'élève d'être attentif à l'avenir.", profile: "pragmatique" },
-                    { text: "Tu minimises l'incident, \"ce sont des cas isolés, ça arrive\".", profile: "technophile" }
-                ]
-            },
-            {
-                theme: "Esprit Critique 🧠",
-                question: "Lorsque tu abordes l'IA avec tes élèves, tu :",
-                answers: [
-                    { text: "Fais systématiquement un détour par le doute, la source, la pluralité des points de vue.", profile: "reflechi" },
-                    { text: "Proposes l'IA comme un outil parmi d'autres, utile pour explorer des idées.", profile: "pragmatique" },
-                    { text: "Mets en avant l'IA comme référence fiable pour la production d'informations.", profile: "technophile" }
-                ]
-            }
-        ];
+    <!-- Modal profils du groupe -->
+    <div id="group-modal" class="modal-backdrop">
+        <div class="modal-content">
+            <button class="modal-close" data-close-modal="group-modal" aria-label="Fermer">×</button>
+            <h3>👥 Profils du groupe <span class="live-dot"></span></h3>
+            <p class="group-total"><span id="group-total-count">0</span> personne(s) ont terminé le quiz dans votre session.</p>
 
-        // ================================
-        //   ÉTAT GLOBAL
-        // ================================
-        const THEMES = ["Éthique 🤔", "Écologique 🌱", "Juridique ⚖️", "Esprit Critique 🧠"];
-        const FILTER_ALL = "Tous";
+            <div class="group-stats">
+                <div class="group-stat reflechi">
+                    <div class="g-value" id="group-reflechi">0</div>
+                    <div class="g-label">🤔 Réfléchi</div>
+                </div>
+                <div class="group-stat pragmatique">
+                    <div class="g-value" id="group-pragmatique">0</div>
+                    <div class="g-label">⚖️ Pragmatique</div>
+                </div>
+                <div class="group-stat technophile">
+                    <div class="g-value" id="group-technophile">0</div>
+                    <div class="g-label">🚀 Technophile</div>
+                </div>
+            </div>
 
-        let currentQuestionIndex = 0;
-        let selectedAnswer = null;
-        let scores = { reflechi: 0, pragmatique: 0, technophile: 0 };
-        let scoresByTheme = {};
-        let currentFilter = FILTER_ALL;
-        let canvas, ctx;
+            <div class="group-radar-wrap">
+                <canvas id="group-radar-chart" width="320" height="320" style="width:320px;height:320px;"></canvas>
+            </div>
 
-        // Initialiser les scores par thème
-        THEMES.forEach(theme => {
-            scoresByTheme[theme] = { reflechi: 0, pragmatique: 0, technophile: 0 };
-        });
+            <p class="group-total" style="font-size: 0.85rem;">Le radar montre la moyenne des scores du groupe sur les 3 axes.</p>
 
-        // ================================
-        //   INITIALISATION
-        // ================================
-        window.onload = function() {
-            // Consent → activer le bouton
-            const consent = document.getElementById('consent-checkbox');
-            const startBtn = document.getElementById('start-quiz-btn');
-            consent.addEventListener('change', () => {
-                startBtn.disabled = !consent.checked;
-            });
+            <div class="modal-footer">
+                <button class="btn" data-close-modal="group-modal">Fermer</button>
+            </div>
+        </div>
+    </div>
 
-            // Mélanger les réponses
-            quizData.forEach(question => {
-                question.answers = shuffleArray(question.answers);
-            });
-        };
 
-        // ================================
-        //   NAVIGATION INTRO → QUIZ
-        // ================================
-        function startQuiz() {
-            const consent = document.getElementById('consent-checkbox');
-            if (!consent.checked) return;
-
-            document.getElementById('intro-screen').style.display = 'none';
-            document.getElementById('quiz-screen').style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'instant' });
-
-            canvas = document.getElementById('radar-chart');
-            ctx = canvas.getContext('2d');
-
-            renderFilters();
-            setupRadarHover();
-            displayQuestion();
-            drawRadarChart();
-        }
-
-        // ================================
-        //   FILTRES DU RADAR
-        // ================================
-        function renderFilters() {
-            const container = document.getElementById('radar-filters');
-            const options = [FILTER_ALL, ...THEMES];
-            container.innerHTML = '';
-            options.forEach(opt => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-pill' + (opt === currentFilter ? ' active' : '');
-                btn.textContent = opt;
-                btn.onclick = () => setFilter(opt);
-                container.appendChild(btn);
-            });
-        }
-
-        function setFilter(filter) {
-            currentFilter = filter;
-            renderFilters();
-            drawRadarChart(document.getElementById('final-results').style.display === 'block');
-        }
-
-        // ================================
-        //   OUTILS
-        // ================================
-        function shuffleArray(array) {
-            const shuffled = [...array];
-            for (let i = shuffled.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-            }
-            return shuffled;
-        }
-
-        // ================================
-        //   QUESTIONS
-        // ================================
-        function displayQuestion() {
-            const question = quizData[currentQuestionIndex];
-
-            document.getElementById('question-theme').textContent = question.theme;
-            document.getElementById('question-text').textContent = question.question;
-            document.getElementById('question-counter').textContent = currentQuestionIndex + 1;
-
-            const answersContainer = document.getElementById('answers-container');
-            answersContainer.innerHTML = '';
-
-            question.answers.forEach((answer, index) => {
-                const answerDiv = document.createElement('div');
-                answerDiv.className = 'answer-option';
-                answerDiv.textContent = answer.text;
-                answerDiv.onclick = () => selectAnswer(index);
-                answersContainer.appendChild(answerDiv);
-            });
-
-            selectedAnswer = null;
-            document.getElementById('next-btn').disabled = true;
-        }
-
-        function selectAnswer(index) {
-            document.querySelectorAll('.answer-option').forEach(option => {
-                option.classList.remove('selected');
-            });
-            document.querySelectorAll('.answer-option')[index].classList.add('selected');
-            selectedAnswer = index;
-            document.getElementById('next-btn').disabled = false;
-        }
-
-        function nextQuestion() {
-            if (selectedAnswer === null) return;
-
-            const question = quizData[currentQuestionIndex];
-            const selectedProfile = question.answers[selectedAnswer].profile;
-            scores[selectedProfile]++;
-            scoresByTheme[question.theme][selectedProfile]++;
-
-            drawRadarChart();
-
-            currentQuestionIndex++;
-
-            if (currentQuestionIndex < quizData.length) {
-                displayQuestion();
-            } else {
-                finishQuiz();
-            }
-        }
-
-        function finishQuiz() {
-            document.getElementById('quiz-container').style.display = 'none';
-            document.getElementById('final-quiz-result').style.display = 'block';
-            document.getElementById('final-results').style.display = 'block';
-
-            const profileNames = {
-                reflechi: 'Réfléchi 🤔',
-                pragmatique: 'Pragmatique ⚖️',
-                technophile: 'Technophile 🚀'
-            };
-
-            const dominantProfile = Object.keys(scores).reduce((a, b) =>
-                scores[a] > scores[b] ? a : b
-            );
-
-            document.getElementById('dominant-profile').textContent = profileNames[dominantProfile];
-
-            const scoresDisplay = document.getElementById('scores-display');
-            scoresDisplay.innerHTML = `
-                <p><strong>Réfléchi:</strong> ${scores.reflechi}/12</p>
-                <p><strong>Pragmatique:</strong> ${scores.pragmatique}/12</p>
-                <p><strong>Technophile:</strong> ${scores.technophile}/12</p>
-            `;
-
-            drawRadarChart(true);
-        }
-
-        // ================================
-        //   RADAR CHART
-        // ================================
-        let radarPoints = []; // positions des points pour le hover
-
-        function getActiveScores() {
-            if (currentFilter === FILTER_ALL) {
-                return { data: scores, max: 12, label: 'Total' };
-            }
-            return { data: scoresByTheme[currentFilter], max: 3, label: currentFilter };
-        }
-
-        function drawRadarChart(showLabels = false) {
-            if (!ctx) return;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = 120;
-
-            const active = getActiveScores();
-            const maxScore = active.max;
-
-            // Cercles de graduation
-            ctx.strokeStyle = '#d7e8e8';
-            ctx.lineWidth = 1;
-            for (let i = 1; i <= 5; i++) {
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, (radius * i) / 5, 0, 2 * Math.PI);
-                ctx.stroke();
-            }
-
-            // Axes
-            const angles = [0, (2 * Math.PI) / 3, (4 * Math.PI) / 3];
-            const axisLabels = ['Technophile', 'Pragmatique', 'Réfléchi'];
-
-            angles.forEach((angle, index) => {
-                const x = centerX + Math.cos(angle - Math.PI / 2) * radius;
-                const y = centerY + Math.sin(angle - Math.PI / 2) * radius;
-
-                ctx.beginPath();
-                ctx.strokeStyle = '#d7e8e8';
-                ctx.moveTo(centerX, centerY);
-                ctx.lineTo(x, y);
-                ctx.stroke();
-
-                // Labels d'axes toujours visibles (utile pour le filtre)
-                ctx.fillStyle = '#2C6565';
-                ctx.font = 'bold 13px Barlow, sans-serif';
-                ctx.textAlign = 'center';
-                const labelX = centerX + Math.cos(angle - Math.PI / 2) * (radius + 22);
-                const labelY = centerY + Math.sin(angle - Math.PI / 2) * (radius + 22);
-                ctx.fillText(axisLabels[index], labelX, labelY);
-            });
-
-            // Polygone des scores
-            radarPoints = [];
-            const data = active.data;
-            const profileKeys = ['technophile', 'pragmatique', 'reflechi'];
-            const scoreValues = [data.technophile, data.pragmatique, data.reflechi];
-
-            if (data.reflechi > 0 || data.pragmatique > 0 || data.technophile > 0) {
-                ctx.beginPath();
-                ctx.strokeStyle = '#2C6565';
-                ctx.fillStyle = 'rgba(44, 101, 101, 0.28)';
-                ctx.lineWidth = 2;
-
-                angles.forEach((angle, index) => {
-                    const score = Math.min(scoreValues[index], maxScore);
-                    const scoreRadius = (radius * score) / maxScore;
-                    const x = centerX + Math.cos(angle - Math.PI / 2) * scoreRadius;
-                    const y = centerY + Math.sin(angle - Math.PI / 2) * scoreRadius;
-
-                    if (index === 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y);
-                    }
-                });
-
-                ctx.closePath();
-                ctx.fill();
-                ctx.stroke();
-            }
-
-            // Points sur les axes (toujours dessinés, même à 0)
-            angles.forEach((angle, index) => {
-                const score = Math.min(scoreValues[index], maxScore);
-                const scoreRadius = (radius * score) / maxScore;
-                const x = centerX + Math.cos(angle - Math.PI / 2) * scoreRadius;
-                const y = centerY + Math.sin(angle - Math.PI / 2) * scoreRadius;
-
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.fillStyle = '#2C6565';
-                ctx.fill();
-
-                radarPoints.push({
-                    x, y,
-                    score: scoreValues[index],
-                    max: maxScore,
-                    label: axisLabels[index],
-                    profile: profileKeys[index]
-                });
-            });
-        }
-
-        // ================================
-        //   TOOLTIP RADAR (hover)
-        // ================================
-        function setupRadarHover() {
-            const tooltip = document.getElementById('radar-tooltip');
-            const rect = () => canvas.getBoundingClientRect();
-
-            canvas.addEventListener('mousemove', (e) => {
-                const r = rect();
-                // Coordonnées ramenées à l'espace du canvas (320x320 interne)
-                const scaleX = canvas.width / r.width;
-                const scaleY = canvas.height / r.height;
-                const mx = (e.clientX - r.left) * scaleX;
-                const my = (e.clientY - r.top) * scaleY;
-
-                const HOVER_RADIUS = 14;
-                const found = radarPoints.find(p => {
-                    const dx = p.x - mx;
-                    const dy = p.y - my;
-                    return Math.sqrt(dx * dx + dy * dy) <= HOVER_RADIUS;
-                });
-
-                if (found) {
-                    tooltip.textContent = `${found.label} : ${found.score} / ${found.max}`;
-                    // Repositionner en coordonnées CSS (pas canvas interne)
-                    tooltip.style.left = (found.x / scaleX) + 'px';
-                    tooltip.style.top = (found.y / scaleY) + 'px';
-                    tooltip.classList.add('visible');
-                    canvas.style.cursor = 'pointer';
-                } else {
-                    tooltip.classList.remove('visible');
-                    canvas.style.cursor = 'default';
-                }
-            });
-
-            canvas.addEventListener('mouseleave', () => {
-                tooltip.classList.remove('visible');
-                canvas.style.cursor = 'default';
-            });
-        }
-
-        // ================================
-        //   MODALE DES PROFILS
-        // ================================
-        function showProfileDescriptions() {
-            document.getElementById('profile-modal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function hideProfileDescriptions() {
-            document.getElementById('profile-modal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        function handleBackdropClick(event) {
-            if (event.target.id === 'profile-modal') {
-                hideProfileDescriptions();
-            }
-        }
-
-        // Fermer la modale avec ESC
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') hideProfileDescriptions();
-        });
-    </script>
+    <!-- ================================================ -->
+    <!--   SCRIPTS                                        -->
+    <!-- ================================================ -->
+    <script type="module" src="./app.js"></script>
 </body>
 </html>
